@@ -1,0 +1,609 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>TechNova Computers</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;700;800&family=Figtree:wght@400;500;600;700&display=swap">
+<style>
+/* Concept: accueil chaleureux. Formes douces, couleurs vives mais apaisées, ton de conversation,
+   un échange type en guise d'illustration, le devis comme un panier qu'on remplit à deux. */
+:root{
+  --bg:#F7F5F2; --surface:#FFFFFF; --surface-2:#EFEBE6;
+  --ink:#1B2F3A; --muted:#566870; --line:#E4DED7;
+  --accent:#C9432D; --accent-ink:#FFFFFF; --accent-soft:#FDE6E0;
+  --teal:#1F7A8C; --teal-soft:#DAEEF2;
+  --sun:#FFD166; --sun-soft:#FFF1C9;
+  --ok:#17784A; --ok-soft:#DDF3E6; --warn:#855100; --warn-soft:#FBE8C4;
+  --shadow:0 1px 0 rgba(27,47,58,.04),0 14px 28px -16px rgba(27,47,58,.28);
+  --f-display:'Bricolage Grotesque',system-ui,-apple-system,'Segoe UI',sans-serif;
+  --f-body:'Figtree',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#111B21; --surface:#192830; --surface-2:#22333C;
+    --ink:#EEF2F0; --muted:#A3B3BA; --line:#2C3E48;
+    --accent:#FF8F78; --accent-ink:#2A0F09; --accent-soft:#3A221D;
+    --teal:#6FC6D6; --teal-soft:#1A3A43;
+    --sun:#E9B93C; --sun-soft:#3A3114;
+    --ok:#6ADBA2; --ok-soft:#173A2B; --warn:#F2C468; --warn-soft:#3B2E12;
+    --shadow:0 14px 28px -16px rgba(0,0,0,.7);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#111B21; --surface:#192830; --surface-2:#22333C;
+  --ink:#EEF2F0; --muted:#A3B3BA; --line:#2C3E48;
+  --accent:#FF8F78; --accent-ink:#2A0F09; --accent-soft:#3A221D;
+  --teal:#6FC6D6; --teal-soft:#1A3A43;
+  --sun:#E9B93C; --sun-soft:#3A3114;
+  --ok:#6ADBA2; --ok-soft:#173A2B; --warn:#F2C468; --warn-soft:#3B2E12;
+  --shadow:0 14px 28px -16px rgba(0,0,0,.7);
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+@media (prefers-reduced-motion:no-preference){html{scroll-behavior:smooth}}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 var(--f-body);-webkit-text-size-adjust:100%}
+h1,h2,h3{font-family:var(--f-display);font-weight:800;letter-spacing:-.015em;line-height:1.1;margin:0;text-wrap:balance}
+p{margin:0}
+a{color:inherit}
+.wrap{width:100%;max-width:1200px;margin-inline:auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.tagline{display:inline-block;font-size:14px;font-weight:600;padding:6px 14px;border-radius:999px;background:var(--sun-soft);color:var(--ink)}
+:focus-visible{outline:3px solid var(--teal);outline-offset:2px}
+section[id]{scroll-margin-top:96px}
+
+/* Buttons */
+.btn{font:inherit;font-weight:700;font-size:16px;line-height:1.2;padding:13px 22px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;transition:transform .15s,background .15s}
+.btn:hover{background:var(--surface-2)}
+.btn:active{transform:scale(.97)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.primary:hover{filter:brightness(1.07);background:var(--accent)}
+.btn.small{padding:9px 16px;font-size:15px}
+
+/* Header */
+.site-header{position:sticky;top:env(safe-area-inset-top,0px);z-index:30;background:var(--bg);border-bottom:1px solid var(--line)}
+.hdr{display:flex;flex-wrap:wrap;align-items:center;gap:6px 18px;padding-block:10px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:var(--f-display);font-weight:800;font-size:21px;letter-spacing:-.02em;margin-right:auto}
+.brand svg{width:34px;height:34px;flex:none}
+.brand span{font-weight:600;color:var(--muted)}
+.nav{display:none;order:3;width:100%;flex-direction:column;gap:2px;padding:6px 0 14px}
+.nav.open{display:flex}
+.nav a{padding:13px 16px;border-radius:16px;text-decoration:none;font-size:18px;font-weight:600;color:var(--ink)}
+.nav a:hover{background:var(--surface-2)}
+.nav .nav-cta{margin-top:10px;justify-content:center;color:var(--accent-ink);padding:14px 22px;border-radius:999px}
+.nav .nav-cta:hover{background:var(--accent);filter:brightness(1.07)}
+.hdr-actions{display:flex;gap:8px;align-items:center}
+.hdr-cta{display:none!important}
+.lang{padding:8px 13px;font-size:14px}
+.menu-btn{width:44px;height:44px;padding:0;display:inline-flex;flex-direction:column;align-items:center;justify-content:center;gap:5px}
+.menu-btn span{display:block;width:20px;height:2.5px;border-radius:2px;background:var(--ink);transition:transform .2s,opacity .2s}
+.menu-btn[aria-expanded="true"] span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+.menu-btn[aria-expanded="true"] span:nth-child(2){opacity:0}
+.menu-btn[aria-expanded="true"] span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+@media (prefers-reduced-motion:reduce){.menu-btn span{transition:none}}
+@media (min-width:860px){
+  .menu-btn,.nav-cta{display:none!important}
+  .nav{display:flex;flex-direction:row;order:0;width:auto;gap:2px;padding:0;margin-left:10px;margin-right:auto}
+  .nav a{padding:7px 14px;font-size:15px;color:var(--muted);border-radius:999px;white-space:nowrap}
+  .nav a:hover{color:var(--ink)}
+  .hdr{flex-wrap:nowrap}
+  .brand{margin-right:0}
+  .hdr-cta{display:inline-flex!important}
+}
+
+/* Hero */
+.hero{position:relative;overflow:hidden}
+.hero::before{content:"";position:absolute;inset:0;background:radial-gradient(520px 340px at 88% 12%,var(--sun-soft),transparent 70%),radial-gradient(520px 380px at 4% 100%,var(--teal-soft),transparent 70%);pointer-events:none}
+.hero-in{position:relative;display:grid;gap:40px;padding-block:44px 52px}
+@media (min-width:900px){.hero-in{grid-template-columns:minmax(0,1.15fr) minmax(0,1fr);align-items:center;gap:56px;padding-block:72px 76px}}
+.hero h1{font-size:clamp(2.3rem,5.6vw,3.9rem);margin:18px 0 20px}
+.hl{background-image:linear-gradient(transparent 62%,var(--sun) 62%,var(--sun) 92%,transparent 92%);padding-inline:2px;-webkit-box-decoration-break:clone;box-decoration-break:clone}
+.lead{max-width:54ch;font-size:19px;color:var(--muted)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+
+/* Chat illustration */
+.chat{background:var(--surface);border-radius:28px;padding:22px;box-shadow:var(--shadow);display:grid;gap:14px;min-width:0}
+.chat-label{font-size:13px;font-weight:600;color:var(--muted);text-align:center}
+.row{display:flex;gap:10px;align-items:flex-end;min-width:0}
+.row.me{justify-content:flex-end}
+.av{flex:none;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:16px}
+.bub{max-width:82%;padding:12px 16px;border-radius:20px;font-size:16px;line-height:1.45;overflow-wrap:anywhere}
+.row.us .bub{background:var(--surface-2);border-bottom-left-radius:6px}
+.row.me .bub{background:var(--teal-soft);border-bottom-right-radius:6px}
+.bub.free{max-width:100%}
+
+/* Clients strip */
+.clients-in{display:flex;flex-wrap:wrap;align-items:center;gap:10px;padding-block:6px 40px}
+.clients-in strong{font-size:15px;margin-right:6px}
+.chip{font-size:15px;font-weight:600;padding:7px 16px;border-radius:999px;background:var(--surface);border:1px solid var(--line)}
+
+/* Sections */
+.sec{padding-block:72px}
+.sec-head{display:grid;gap:12px;margin-bottom:34px;max-width:62ch}
+.sec h2{font-size:clamp(1.9rem,4vw,2.7rem)}
+.sec-head p{color:var(--muted);font-size:18px}
+
+/* Catalogue */
+.shop{display:grid;gap:32px}
+@media (min-width:1020px){.shop{grid-template-columns:minmax(0,1fr) 350px;align-items:start}}
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:22px}
+.filter{font:inherit;font-size:15px;font-weight:600;padding:9px 18px;border-radius:999px;border:2px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.filter:hover{border-color:var(--teal)}
+.filter[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.grid{display:grid;gap:18px;grid-template-columns:repeat(auto-fill,minmax(215px,1fr))}
+.card{display:flex;flex-direction:column;min-width:0;background:var(--surface);border-radius:24px;padding:12px;box-shadow:var(--shadow)}
+.thumb{height:112px;display:grid;place-items:center;position:relative;border-radius:16px;overflow:hidden;color:var(--ink)}
+.thumb::before{content:"";position:absolute;width:132px;height:100px;border-radius:58% 42% 52% 48% / 46% 58% 42% 54%;background:var(--blob)}
+.thumb svg{position:relative;width:72px;height:50px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.thumb.laptops{background:var(--teal-soft);--blob:var(--surface)}
+.thumb.desktops{background:var(--accent-soft);--blob:var(--surface)}
+.thumb.monitors{background:var(--sun-soft);--blob:var(--surface)}
+.thumb.accessories{background:var(--surface-2);--blob:var(--surface)}
+.cbody{display:flex;flex-direction:column;gap:8px;padding:14px 8px 6px;flex:1}
+.sku{font-size:12px;font-weight:600;letter-spacing:.07em;color:var(--muted)}
+.pname{font-weight:700;font-size:19px;line-height:1.25;font-family:var(--f-display);overflow-wrap:anywhere}
+.price{font-variant-numeric:tabular-nums;font-weight:700;font-size:20px}
+.price small{font-size:13px;font-weight:500;color:var(--muted)}
+.pill{align-self:flex-start;display:inline-flex;align-items:center;gap:7px;font-size:13px;font-weight:700;padding:4px 11px;border-radius:999px}
+.pill::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+.pill.in{background:var(--ok-soft);color:var(--ok)}
+.pill.ltd{background:var(--warn-soft);color:var(--warn)}
+.cbody .spacer{flex:1}
+.card .btn{margin-top:6px}
+
+/* Quote */
+.quote{background:var(--surface);border-radius:28px;box-shadow:var(--shadow);min-width:0;overflow:hidden}
+@media (min-width:1020px){.quote{position:sticky;top:calc(96px + env(safe-area-inset-top,0px))}}
+.q-head{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:18px 22px;background:var(--sun-soft)}
+.q-head h2{font-size:24px}
+.q-count{font-size:14px;font-weight:700;background:var(--surface);padding:3px 12px;border-radius:999px}
+.q-body{padding:6px 22px 22px}
+.q-empty{padding:18px 0 4px;color:var(--muted)}
+.q-line{padding:14px 0;border-bottom:1px solid var(--line);display:grid;gap:10px}
+.q-top{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+.q-name{font-weight:700;line-height:1.3;overflow-wrap:anywhere}
+.q-rm{font:inherit;font-size:22px;line-height:1;border:0;background:none;color:var(--muted);cursor:pointer;padding:0 6px;border-radius:50%}
+.q-rm:hover{color:var(--accent)}
+.q-bot{display:flex;justify-content:space-between;align-items:center;gap:10px}
+.stepper{display:inline-flex;align-items:center;border-radius:999px;background:var(--surface-2)}
+.stepper button{font:inherit;font-size:19px;font-weight:700;width:36px;height:36px;border:0;background:none;color:var(--ink);cursor:pointer;border-radius:50%}
+.stepper button:hover{background:var(--line)}
+.stepper output{min-width:28px;text-align:center;font-weight:700}
+.q-lt{font-variant-numeric:tabular-nums;font-weight:700}
+.q-flag{font-size:13px;color:var(--warn);font-weight:600}
+.q-total{display:flex;justify-content:space-between;align-items:baseline;gap:10px;padding-top:18px}
+.q-total span:first-child{font-size:15px;color:var(--muted)}
+.q-total strong{font-family:var(--f-display);font-size:28px;font-variant-numeric:tabular-nums}
+.q-actions{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.q-note{margin-top:16px;font-size:14px;color:var(--muted)}
+
+/* Order steps */
+.band-teal{background:var(--teal-soft)}
+.steps{display:grid;gap:18px;list-style:none;margin:0;padding:0;counter-reset:s}
+@media (min-width:820px){.steps{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.step{background:var(--surface);border-radius:24px;padding:26px;display:grid;gap:12px;align-content:start;counter-increment:s;box-shadow:var(--shadow)}
+.step::before{content:counter(s);width:44px;height:44px;border-radius:50%;background:var(--accent);color:var(--accent-ink);display:grid;place-items:center;font-family:var(--f-display);font-weight:800;font-size:22px}
+.step h3{font-size:22px}
+.step p{color:var(--muted);font-size:16px}
+
+/* Support */
+.sup{display:grid;gap:36px}
+@media (min-width:900px){.sup{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:64px;align-items:center}}
+.tags{display:flex;flex-wrap:wrap;gap:10px}
+.tag{font-size:15px;font-weight:700;padding:8px 18px;border-radius:999px;background:var(--accent-soft);color:var(--ink)}
+.msg{background:var(--surface);border-radius:28px;padding:22px;display:grid;gap:14px;box-shadow:var(--shadow);min-width:0}
+.msg .bub{white-space:pre-line}
+
+/* FAQ */
+.band-sun{background:var(--sun-soft)}
+.faq{display:grid;gap:12px;max-width:820px}
+.faq details{background:var(--surface);border-radius:20px}
+.faq summary{cursor:pointer;list-style:none;padding:18px 22px;font-weight:700;font-size:18px;display:flex;justify-content:space-between;gap:16px;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";flex:none;width:30px;height:30px;border-radius:50%;background:var(--accent-soft);display:grid;place-items:center;font-size:20px;line-height:1}
+.faq details[open] summary::after{content:"\2212"}
+.faq details p{padding:0 22px 20px;color:var(--muted)}
+
+/* Contact */
+.contact{display:grid;gap:18px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.cc{background:var(--surface);border-radius:24px;padding:24px;display:grid;gap:8px;align-content:start;min-width:0;box-shadow:var(--shadow)}
+.cc .label{font-size:14px;font-weight:600;color:var(--muted)}
+.cc .val{font-family:var(--f-display);font-weight:700;font-size:21px;overflow-wrap:anywhere;text-decoration:none}
+.cc a.val:hover{color:var(--accent)}
+.cc .btn{justify-self:start;margin-top:6px}
+
+footer{padding-block:32px calc(32px + 56px);font-size:14px;color:var(--muted);border-top:1px solid var(--line)}
+.foot{display:flex;flex-wrap:wrap;justify-content:space-between;gap:10px 24px}
+
+/* Floating quote pill + toast */
+.pillbtn{position:fixed;right:max(16px,env(safe-area-inset-right,0px));bottom:calc(16px + env(safe-area-inset-bottom,0px));z-index:40;box-shadow:0 10px 24px -6px rgba(0,0,0,.35)}
+@media (min-width:1020px){.pillbtn{display:none!important}}
+.toast{position:fixed;left:50%;bottom:calc(22px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:var(--bg);padding:11px 20px;border-radius:999px;font-size:15px;font-weight:600;z-index:50;opacity:0;pointer-events:none;transition:opacity .2s;max-width:calc(100% - 32px);text-align:center}
+.toast.show{opacity:1}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap hdr">
+    <a class="brand" href="#top" aria-label="TechNova Computers">
+      <svg viewBox="0 0 34 34" aria-hidden="true"><path d="M17 1.5c8.6 0 15.5 6.2 15.5 15.7S25.600 32.500 17 32.500 1.500 26.300 1.500 17 8.400 1.500 17 1.500z" fill="var(--accent)"/><path d="M11 24V10l12 14V10" fill="none" stroke="var(--accent-ink)" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/></svg>
+      TechNova <span>Computers</span>
+    </a>
+    <nav class="nav" id="nav" aria-label="Navigation">
+      <a href="#catalogue" data-i18n="nav_catalogue"></a>
+      <a href="#commander" data-i18n="nav_order"></a>
+      <a href="#apres-vente" data-i18n="nav_support"></a>
+      <a href="#faq" data-i18n="nav_faq"></a>
+      <a href="#contact" data-i18n="nav_contact"></a>
+      <a class="btn primary nav-cta" href="#devis" data-i18n="cta_quote"></a>
+    </nav>
+    <div class="hdr-actions">
+      <button class="btn small lang" id="lang" type="button" aria-label="Changer de langue / Change language">EN</button>
+      <a class="btn primary small hdr-cta" href="#devis" data-i18n="cta_quote"></a>
+      <button class="btn menu-btn" id="menu" type="button" aria-expanded="false" aria-controls="nav" aria-label="Menu"><span></span><span></span><span></span></button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+  <div class="hero">
+    <div class="wrap hero-in">
+      <div>
+        <span class="tagline" data-i18n="eyebrow"></span>
+        <h1><span data-i18n="h1a"></span> <span class="hl" data-i18n="h1b"></span></h1>
+        <p class="lead" data-i18n="lead"></p>
+        <div class="hero-cta">
+          <a class="btn primary" href="#catalogue" data-i18n="cta_browse"></a>
+          <a class="btn" href="#devis" data-i18n="cta_build"></a>
+        </div>
+      </div>
+      <div class="chat">
+        <p class="chat-label" data-i18n="chat_label"></p>
+        <div class="row me"><div class="bub" data-i18n="b1"></div></div>
+        <div class="row us"><span class="av" aria-hidden="true">T</span><div class="bub" data-i18n="b2"></div></div>
+        <div class="row me"><div class="bub" data-i18n="b3"></div></div>
+        <div class="row us"><span class="av" aria-hidden="true">T</span><div class="bub" data-i18n="b4"></div></div>
+      </div>
+    </div>
+    <div class="wrap clients-in">
+      <strong data-i18n="clients_label"></strong>
+      <span class="chip" data-i18n="c1"></span>
+      <span class="chip" data-i18n="c2"></span>
+      <span class="chip" data-i18n="c3"></span>
+      <span class="chip" data-i18n="c4"></span>
+      <span class="chip" data-i18n="c5"></span>
+    </div>
+  </div>
+
+  <section class="sec" id="catalogue">
+    <div class="wrap">
+      <div class="sec-head">
+        <h2 data-i18n="cat_title"></h2>
+        <p data-i18n="cat_lead"></p>
+      </div>
+      <div class="shop">
+        <div>
+          <div class="filters" id="filters" role="group" aria-label="Catégories">
+            <button class="filter" type="button" data-cat="all" data-i18n="f_all"></button>
+            <button class="filter" type="button" data-cat="laptops" data-i18n="f_laptops"></button>
+            <button class="filter" type="button" data-cat="desktops" data-i18n="f_desktops"></button>
+            <button class="filter" type="button" data-cat="monitors" data-i18n="f_monitors"></button>
+            <button class="filter" type="button" data-cat="accessories" data-i18n="f_accessories"></button>
+          </div>
+          <div class="grid" id="grid"></div>
+        </div>
+        <aside class="quote" id="devis" aria-labelledby="q-title">
+          <div class="q-head">
+            <h2 id="q-title" data-i18n="q_title"></h2>
+            <span class="q-count" id="q-count"></span>
+          </div>
+          <div class="q-body" id="q-body"></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band-teal" id="commander">
+    <div class="wrap">
+      <div class="sec-head"><h2 data-i18n="order_title"></h2><p data-i18n="order_lead"></p></div>
+      <ol class="steps">
+        <li class="step"><h3 data-i18n="s1t"></h3><p data-i18n="s1p"></p></li>
+        <li class="step"><h3 data-i18n="s2t"></h3><p data-i18n="s2p"></p></li>
+        <li class="step"><h3 data-i18n="s3t"></h3><p data-i18n="s3p"></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="sec" id="apres-vente">
+    <div class="wrap sup">
+      <div>
+        <div class="sec-head"><h2 data-i18n="sup_title"></h2><p data-i18n="sup_p"></p></div>
+        <div class="tags">
+          <span class="tag" data-i18n="t1"></span><span class="tag" data-i18n="t2"></span><span class="tag" data-i18n="t3"></span><span class="tag" data-i18n="t4"></span>
+        </div>
+      </div>
+      <div class="msg">
+        <p class="chat-label" data-i18n="sup_ex_label"></p>
+        <div class="row me"><div class="bub" data-i18n="sup_ex"></div></div>
+        <div class="row us"><span class="av" aria-hidden="true">T</span><div class="bub" data-i18n="sup_re"></div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec band-sun" id="faq">
+    <div class="wrap">
+      <div class="sec-head"><h2 data-i18n="faq_title"></h2></div>
+      <div class="faq">
+        <details><summary data-i18n="fq1"></summary><p data-i18n="fa1"></p></details>
+        <details><summary data-i18n="fq2"></summary><p data-i18n="fa2"></p></details>
+        <details><summary data-i18n="fq3"></summary><p data-i18n="fa3"></p></details>
+        <details><summary data-i18n="fq4"></summary><p data-i18n="fa4"></p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="contact">
+    <div class="wrap">
+      <div class="sec-head"><h2 data-i18n="con_title"></h2><p data-i18n="con_lead"></p></div>
+      <div class="contact">
+        <div class="cc"><span class="label" data-i18n="con_address"></span><span class="val" data-i18n="con_address_v"></span></div>
+        <div class="cc"><span class="label" data-i18n="con_phone"></span><a class="val" href="tel:+212522000000">+212 5 22 00 00 00</a><button class="btn small" type="button" data-copy="+212 5 22 00 00 00" data-i18n="copy"></button></div>
+        <div class="cc"><span class="label" data-i18n="con_email"></span><a class="val" href="mailto:contact@technova-computers.ma">contact@technova-computers.ma</a><button class="btn small" type="button" data-copy="contact@technova-computers.ma" data-i18n="copy"></button></div>
+        <div class="cc"><span class="label" data-i18n="con_web"></span><span class="val">technova-computers.ma</span></div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap foot">
+    <span>© TechNova Computers · Casablanca</span>
+    <span data-i18n="foot"></span>
+  </div>
+</footer>
+
+<a class="btn primary pillbtn" id="pill" href="#devis" hidden></a>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var T={
+    fr:{
+      nav_catalogue:"Catalogue",nav_order:"Commander",nav_support:"Après-vente",nav_faq:"FAQ",nav_contact:"Contact",cta_quote:"Demander un devis",
+      eyebrow:"Casablanca · depuis 2022",
+      h1a:"Du bon matériel,",h1b:"et une équipe pour vous accompagner.",
+      lead:"Ordinateurs, écrans et accessoires pour votre travail, votre école ou votre maison. Vous choisissez tranquillement dans le catalogue, puis on confirme la disponibilité et on finalise la commande ensemble.",
+      cta_browse:"Découvrir le catalogue",cta_build:"Préparer mon devis",
+      chat_label:"Exemple d'échange",
+      b1:"Bonjour, nous équipons un petit cabinet : 4 postes complets. Que nous conseillez-vous ?",
+      b2:"Bonjour ! Parcourez le catalogue et notez les SKU qui vous plaisent, par exemple LAP-005 et MON-001.",
+      b3:"Parfait : 4 × LAP-005 et 4 × MON-001. C'est disponible ?",
+      b4:"On vérifie le stock, on vous confirme tout ça et on finalise la commande avec vous.",
+      clients_label:"Nous équipons",c1:"PME",c2:"Cabinets et professions libérales",c3:"Écoles",c4:"Studios créatifs",c5:"Particuliers",
+      cat_title:"Le catalogue",
+      cat_lead:"Parcourez, comparez et ajoutez ce qu'il vous faut à votre devis. Prix en dirhams (MAD), hors taxes. « Stock limité » veut dire qu'il reste peu d'exemplaires : mieux vaut nous contacter vite.",
+      f_all:"Tout voir",f_laptops:"Portables",f_desktops:"Ordinateurs fixes",f_monitors:"Écrans",f_accessories:"Accessoires",
+      in:"En stock",ltd:"Stock limité",add:"Ajouter au devis",ht:"MAD HT",
+      q_title:"Votre devis",q_empty:"C'est encore vide. Ajoutez des produits depuis le catalogue et on prépare votre demande ensemble.",
+      q_total:"Total hors taxes",q_copy:"Copier ma demande",q_clear:"Tout vider",q_ltd:"Stock limité, à confirmer",
+      q_note:"Envoyez cette liste par e-mail ou par téléphone. On confirme la disponibilité avant de finaliser la commande.",
+      q_less:"Diminuer la quantité",q_more:"Augmenter la quantité",q_rm:"Retirer",q_pill:"Mon devis",
+      q_head:"Demande de devis · TechNova Computers",q_tot:"Total hors taxes",
+      order_title:"Commander, c'est simple",order_lead:"Trois étapes, et on reste avec vous jusqu'à la livraison de votre commande.",
+      s1t:"Choisissez vos produits",s1p:"Repérez ce qui vous plaît dans le catalogue et notez les SKU, par exemple LAP-001.",
+      s2t:"Contactez-nous",s2p:"Appelez-nous ou écrivez-nous avec les SKU et les quantités. Le devis de cette page prépare le message pour vous.",
+      s3t:"On finalise ensemble",s3p:"Notre équipe commerciale confirme la disponibilité et finalise votre commande avec vous.",
+      sup_title:"Un souci ? On s'en occupe.",
+      sup_p:"Batterie, écran, connexion ou système d'exploitation : contactez notre support par téléphone ou par e-mail avec le SKU du produit et une description du problème. Notre équipe technique prend votre demande en charge.",
+      t1:"Batterie",t2:"Écran",t3:"Connectivité",t4:"Système d'exploitation",
+      sup_ex_label:"Exemple de message",sup_ex:"SKU : LAP-003\nLa batterie se décharge très vite depuis la dernière mise à jour du système.",
+      sup_re:"Merci, c'est bien noté. Notre équipe technique regarde ça et revient vers vous.",
+      faq_title:"Vos questions",
+      fq1:"Les prix incluent-ils les taxes ?",fa1:"Non, les prix affichés sont hors taxes.",
+      fq2:"Vendez-vous aux particuliers et aux entreprises ?",fa2:"Oui, nous accompagnons les deux.",
+      fq3:"Comment savoir si un produit est disponible ?",fa3:"Le catalogue vous donne une indication : « En stock » ou « Stock limité ». Contactez-nous pour confirmer avant de commander.",
+      fq4:"Comment demander un devis ?",fa4:"Préparez votre liste avec le devis de cette page, puis envoyez-la par e-mail à contact@technova-computers.ma ou appelez le +212 5 22 00 00 00.",
+      con_title:"Parlons-en",con_lead:"Une question, un devis, un souci avec votre équipement ? Écrivez-nous ou appelez-nous.",
+      con_address:"Adresse",con_address_v:"Casablanca, Maroc",con_phone:"Téléphone",con_email:"E-mail",con_web:"Site web",
+      copy:"Copier",copied:"Copié",copy_failed:"Copie impossible, sélectionnez le texte.",
+      foot:"Site de démonstration : les informations sont fictives et ne constituent pas une offre commerciale réelle."
+    },
+    en:{
+      nav_catalogue:"Catalogue",nav_order:"How to order",nav_support:"After-sales",nav_faq:"FAQ",nav_contact:"Contact",cta_quote:"Request a quote",
+      eyebrow:"Casablanca · since 2022",
+      h1a:"Good equipment,",h1b:"and a team to help you choose.",
+      lead:"Computers, monitors and accessories for your work, your school or your home. Browse the catalogue at your own pace, then we confirm availability and finalise the order together.",
+      cta_browse:"Explore the catalogue",cta_build:"Build my quote",
+      chat_label:"Example conversation",
+      b1:"Hello, we're equipping a small firm: 4 complete workstations. What do you suggest?",
+      b2:"Hello! Browse the catalogue and note the SKUs you like, for example LAP-005 and MON-001.",
+      b3:"Great: 4 × LAP-005 and 4 × MON-001. Are they available?",
+      b4:"We check the stock, confirm everything and finalise the order with you.",
+      clients_label:"We equip",c1:"Small businesses",c2:"Professional firms",c3:"Schools",c4:"Creative studios",c5:"Individuals",
+      cat_title:"The catalogue",
+      cat_lead:"Browse, compare and add what you need to your quote. Prices in dirhams (MAD), excluding tax. “Limited stock” means only a few units are left, so it's best to contact us soon.",
+      f_all:"See all",f_laptops:"Laptops",f_desktops:"Desktop computers",f_monitors:"Monitors",f_accessories:"Accessories",
+      in:"In stock",ltd:"Limited stock",add:"Add to quote",ht:"MAD excl. tax",
+      q_title:"Your quote",q_empty:"Nothing here yet. Add products from the catalogue and we'll prepare your request together.",
+      q_total:"Total excluding tax",q_copy:"Copy my request",q_clear:"Clear all",q_ltd:"Limited stock, to be confirmed",
+      q_note:"Send this list by email or phone. We confirm availability before finalising the order.",
+      q_less:"Decrease quantity",q_more:"Increase quantity",q_rm:"Remove",q_pill:"My quote",
+      q_head:"Quote request · TechNova Computers",q_tot:"Total excluding tax",
+      order_title:"Ordering is simple",order_lead:"Three steps, and we stay with you until your order is sorted.",
+      s1t:"Choose your products",s1p:"Pick what you like from the catalogue and note the SKUs, for example LAP-001.",
+      s2t:"Get in touch",s2p:"Call or email us with the SKUs and quantities. The quote on this page prepares the message for you.",
+      s3t:"We finalise together",s3p:"Our sales team confirms availability and finalises your order with you.",
+      sup_title:"A problem? We'll take care of it.",
+      sup_p:"Battery, screen, connectivity or operating system: contact our support team by phone or email with the product SKU and a description of the issue. Our technical team will handle your request.",
+      t1:"Battery",t2:"Screen",t3:"Connectivity",t4:"Operating system",
+      sup_ex_label:"Example message",sup_ex:"SKU: LAP-003\nThe battery drains very fast since the last system update.",
+      sup_re:"Thank you, noted. Our technical team will look into it and get back to you.",
+      faq_title:"Your questions",
+      fq1:"Do prices include tax?",fa1:"No, the prices shown exclude tax.",
+      fq2:"Do you sell to both individuals and businesses?",fa2:"Yes, we support both.",
+      fq3:"How do I know if a product is available?",fa3:"The catalogue gives an indication: “In stock” or “Limited stock”. Please contact us to confirm before ordering.",
+      fq4:"How can I request a quote?",fa4:"Prepare your list with the quote on this page, then email it to contact@technova-computers.ma or call +212 5 22 00 00 00.",
+      con_title:"Let's talk",con_lead:"A question, a quote, a problem with your equipment? Write to us or give us a call.",
+      con_address:"Address",con_address_v:"Casablanca, Morocco",con_phone:"Phone",con_email:"Email",con_web:"Website",
+      copy:"Copy",copied:"Copied",copy_failed:"Copy failed, please select the text.",
+      foot:"Demonstration site: the information is fictional and does not constitute a real commercial offer."
+    }
+  };
+
+  var ICONS={
+    laptop:'<svg viewBox="0 0 68 46" aria-hidden="true"><rect x="12" y="5" width="44" height="29" rx="4"/><path d="M5 40h58l-4-6H9z"/></svg>',
+    desktop:'<svg viewBox="0 0 68 46" aria-hidden="true"><rect x="22" y="4" width="24" height="38" rx="5"/><path d="M28 12h12M28 17h12"/><circle cx="34" cy="34" r="2.5"/></svg>',
+    monitor:'<svg viewBox="0 0 68 46" aria-hidden="true"><rect x="8" y="4" width="52" height="30" rx="4"/><path d="M34 34v7M24 42h20"/></svg>',
+    keyboard:'<svg viewBox="0 0 68 46" aria-hidden="true"><rect x="5" y="9" width="58" height="28" rx="6"/><path d="M12 17h3M20 17h3M28 17h3M36 17h3M44 17h3M52 17h3M12 24h3M20 24h3M28 24h3M36 24h3M44 24h3M52 24h3M20 31h28"/></svg>',
+    mouse:'<svg viewBox="0 0 68 46" aria-hidden="true"><rect x="24" y="4" width="20" height="38" rx="10"/><path d="M34 4v14M24 18h20"/></svg>',
+    dock:'<svg viewBox="0 0 68 46" aria-hidden="true"><rect x="6" y="14" width="56" height="18" rx="6"/><path d="M14 23h6M26 23h6M38 23h6M50 23h4"/></svg>'
+  };
+
+  var P=[
+    {sku:'LAP-001',name:'NovaBook Pro 14',price:12500,cat:'laptops',stock:'in',icon:'laptop'},
+    {sku:'LAP-002',name:'NovaBook Air 13',price:9800,cat:'laptops',stock:'in',icon:'laptop'},
+    {sku:'LAP-003',name:'Lenovo ThinkPad E14',price:10900,cat:'laptops',stock:'ltd',icon:'laptop'},
+    {sku:'LAP-004',name:'Dell Latitude 5450',price:13200,cat:'laptops',stock:'ltd',icon:'laptop'},
+    {sku:'LAP-005',name:'HP ProBook 450',price:11400,cat:'laptops',stock:'in',icon:'laptop'},
+    {sku:'DES-001',name:'NovaStation Office',price:7500,cat:'desktops',stock:'in',icon:'desktop'},
+    {sku:'DES-002',name:'NovaStation Pro',price:11800,cat:'desktops',stock:'ltd',icon:'desktop'},
+    {sku:'MON-001',name:'NovaView 24"',price:1650,cat:'monitors',stock:'in',icon:'monitor'},
+    {sku:'MON-002',name:'NovaView 27"',price:2400,cat:'monitors',stock:'in',icon:'monitor'},
+    {sku:'ACC-001',name:'Nova Mechanical Keyboard',price:650,cat:'accessories',stock:'in',icon:'keyboard'},
+    {sku:'ACC-002',name:'Nova Pro Mouse',price:350,cat:'accessories',stock:'in',icon:'mouse'},
+    {sku:'ACC-003',name:'Nova USB-C Dock',price:950,cat:'accessories',stock:'in',icon:'dock'}
+  ];
+  var BY={};P.forEach(function(p){BY[p.sku]=p});
+
+  var lang='fr',cat='all',cart={};
+  try{var sl=localStorage.getItem('tn-lang');if(sl==='en'||sl==='fr')lang=sl;}catch(e){}
+  try{var sc=JSON.parse(localStorage.getItem('tn-cart')||'{}');Object.keys(sc).forEach(function(k){if(BY[k]&&sc[k]>0)cart[k]=Math.min(99,Math.floor(sc[k]))});}catch(e){}
+
+  function t(k){return T[lang][k]}
+  function fmt(n){return new Intl.NumberFormat('fr-FR').format(n)}
+  function $(id){return document.getElementById(id)}
+  function save(){try{localStorage.setItem('tn-cart',JSON.stringify(cart))}catch(e){}}
+
+  function applyStatic(){
+    document.documentElement.lang=lang;
+    document.querySelectorAll('[data-i18n]').forEach(function(el){el.textContent=t(el.getAttribute('data-i18n'))});
+    $('lang').textContent=lang==='fr'?'EN':'FR';
+  }
+
+  function renderFilters(){
+    document.querySelectorAll('.filter').forEach(function(b){b.setAttribute('aria-pressed',b.getAttribute('data-cat')===cat?'true':'false')});
+  }
+
+  function renderGrid(){
+    $('grid').innerHTML=P.filter(function(p){return cat==='all'||p.cat===cat}).map(function(p){
+      return '<article class="card"><div class="thumb '+p.cat+'">'+ICONS[p.icon]+'</div><div class="cbody">'+
+        '<span class="sku">'+p.sku+'</span><h3 class="pname">'+p.name+'</h3>'+
+        '<span class="price">'+fmt(p.price)+' <small>'+t('ht')+'</small></span>'+
+        '<span class="pill '+p.stock+'">'+t(p.stock)+'</span><span class="spacer"></span>'+
+        '<button type="button" class="btn small" data-add="'+p.sku+'">'+t('add')+(cart[p.sku]?' ('+cart[p.sku]+')':'')+'</button></div></article>';
+    }).join('');
+  }
+
+  function totals(){
+    var n=0,sum=0;Object.keys(cart).forEach(function(k){n+=cart[k];sum+=cart[k]*BY[k].price});return {n:n,sum:sum};
+  }
+
+  function quoteText(){
+    var tt=totals();
+    var lines=Object.keys(cart).map(function(k){
+      var p=BY[k];
+      return '- '+k+' · '+p.name+' × '+cart[k]+' = '+fmt(cart[k]*p.price)+' MAD'+(p.stock==='ltd'?' ('+t('q_ltd').toLowerCase()+')':'');
+    });
+    return (t('q_head')+'\n\n'+lines.join('\n')+'\n\n'+t('q_tot')+' : '+fmt(tt.sum)+' MAD').replace(/[  ]/g,' ');
+  }
+
+  function renderQuote(){
+    var tt=totals(),keys=Object.keys(cart),body=$('q-body');
+    $('q-count').textContent=tt.n+' '+(lang==='fr'?(tt.n>1?'articles':'article'):(tt.n===1?'item':'items'));
+    if(!keys.length){
+      body.innerHTML='<p class="q-empty">'+t('q_empty')+'</p><p class="q-note">'+t('q_note')+'</p>';
+    }else{
+      body.innerHTML=keys.map(function(k){
+        var p=BY[k];
+        return '<div class="q-line"><div class="q-top"><div><div class="sku">'+k+'</div><div class="q-name">'+p.name+'</div>'+(p.stock==='ltd'?'<div class="q-flag">'+t('q_ltd')+'</div>':'')+'</div>'+
+          '<button type="button" class="q-rm" data-rm="'+k+'" aria-label="'+t('q_rm')+' '+p.name+'">×</button></div>'+
+          '<div class="q-bot"><div class="stepper"><button type="button" data-dec="'+k+'" aria-label="'+t('q_less')+'">−</button><output>'+cart[k]+'</output><button type="button" data-inc="'+k+'" aria-label="'+t('q_more')+'">+</button></div>'+
+          '<span class="q-lt">'+fmt(cart[k]*p.price)+' MAD</span></div></div>';
+      }).join('')+
+      '<div class="q-total"><span>'+t('q_total')+'</span><strong>'+fmt(tt.sum)+' MAD</strong></div>'+
+      '<div class="q-actions"><button type="button" class="btn primary small" id="q-copy">'+t('q_copy')+'</button><button type="button" class="btn small" id="q-clear">'+t('q_clear')+'</button></div>'+
+      '<p class="q-note">'+t('q_note')+'</p>';
+    }
+    var pill=$('pill');
+    if(tt.n>0){pill.hidden=false;pill.textContent=t('q_pill')+' · '+tt.n}else{pill.hidden=true}
+  }
+
+  function renderAll(){renderFilters();renderGrid();renderQuote()}
+
+  var toastT;
+  function toast(msg){var el=$('toast');el.textContent=msg;el.classList.add('show');clearTimeout(toastT);toastT=setTimeout(function(){el.classList.remove('show')},1800)}
+  function legacyCopy(text){
+    var ta=document.createElement('textarea');ta.value=text;ta.style.cssText='position:fixed;opacity:0;top:0;left:0';
+    document.body.appendChild(ta);ta.select();var ok=false;try{ok=document.execCommand('copy')}catch(e){}ta.remove();return ok;
+  }
+  function copyText(text){
+    var done=function(){toast(t('copied'))},fail=function(){toast(legacyCopy(text)?t('copied'):t('copy_failed'))};
+    try{
+      if(navigator.clipboard&&navigator.clipboard.writeText){navigator.clipboard.writeText(text).then(done,fail)}else{fail()}
+    }catch(e){fail()}
+  }
+
+  function setQty(sku,q){
+    if(q<=0)delete cart[sku];else cart[sku]=Math.min(99,q);
+    save();renderGrid();renderQuote();
+  }
+
+  function setMenu(open){
+    $('nav').classList.toggle('open',open);
+    $('menu').setAttribute('aria-expanded',open?'true':'false');
+  }
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')setMenu(false)});
+  window.addEventListener('resize',function(){if(window.innerWidth>=860)setMenu(false)});
+
+  document.addEventListener('click',function(e){
+    var open=$('nav').classList.contains('open');
+    if(open&&!e.target.closest('.site-header'))setMenu(false);
+    var el=e.target.closest('button,a');if(!el)return;
+    var d=el.dataset;
+    if(el.id==='menu'){setMenu(!open);return}
+    if(open&&el.closest('#nav')){setMenu(false);return}
+    if(d.add){setQty(d.add,(cart[d.add]||0)+1);toast(BY[d.add].name+' ✓');return}
+    if(d.inc){setQty(d.inc,cart[d.inc]+1);return}
+    if(d.dec){setQty(d.dec,cart[d.dec]-1);return}
+    if(d.rm){setQty(d.rm,0);return}
+    if(d.cat){cat=d.cat;renderFilters();renderGrid();return}
+    if(d.copy){copyText(d.copy);return}
+    if(el.id==='q-copy'){copyText(quoteText());return}
+    if(el.id==='q-clear'){cart={};save();renderGrid();renderQuote();return}
+    if(el.id==='lang'){lang=lang==='fr'?'en':'fr';try{localStorage.setItem('tn-lang',lang)}catch(x){}applyStatic();renderAll();return}
+  });
+
+  applyStatic();renderAll();
+})();
+</script>
+
+<!-- Assistant vocal et chat ElevenLabs.
+     Collez l'ID de votre agent entre les guillemets (il commence par "agent_"). Laissé vide, le widget n'est pas chargé. -->
+<script>
+(function(){
+  var ELEVENLABS_AGENT_ID = "agent_2701m4ye7svceg0vth95bkj7kk6g";
+  if(!ELEVENLABS_AGENT_ID) return;
+  var w = document.createElement("elevenlabs-convai");
+  w.setAttribute("agent-id", ELEVENLABS_AGENT_ID);
+  document.body.appendChild(w);
+  var s = document.createElement("script");
+  s.src = "https://unpkg.com/@elevenlabs/convai-widget-embed@0.18.3";
+  s.async = true;
+  document.body.appendChild(s);
+})();
+</script>
+
+</body>
+</html>
